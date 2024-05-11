@@ -5,35 +5,40 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     // Making the "move" variable 
-    private Movement move;
+    private Movement movement;
 
-    // Player speed
-    private float speed = 1000f;
+    private float horizontalInput;
 
+    // Player walk speed and run speed multipler
+    private float walkSpeed = 10f;
+    private float runSpeed = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
         // Getting the "move" component
-        move = GetComponent<Movement>();
+        movement = GetComponent<Movement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Get input
-        float HorizontalInput = Input.GetAxis("Horizontal");
+        // Get input/direction
+        horizontalInput = Input.GetAxis("Horizontal");     
 
-        // Turn input into direction
-        Vector2 direction = new Vector2 (HorizontalInput, 0);
+        // Give the 'Movement' script the direction and speed
+        movement.ObjectMovement(horizontalInput, walkSpeed, runSpeed);
 
-        if (HorizontalInput != 0.0f)
+        // If shift is press, itll multiple the player movement, making it sprint
+        if (Input.GetButtonDown("Sprint")) 
         {
-            if (move != null)
-            {
-                // Call the movement script
-                move.ObjectMovement(direction, speed);
-            }
+            runSpeed = 2f;
+            Debug.Log("Sprinting");
+        }
+        else if (Input.GetButtonUp("Sprint"))
+        {
+            runSpeed = 1f;
+            Debug.Log("Walking");
         }
     }
 }

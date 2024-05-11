@@ -19,10 +19,16 @@ public class Movement : MonoBehaviour
         
     }
 
-    // Object Movement
-    public void ObjectMovement(Vector2 direction, float speed)
+    // Object Movement, if sprinting adds to the walk speed 
+    public void ObjectMovement(float horizontalInput, float walkSpeed, float runSpeed)
     {
-        Vector2 Movement = direction * speed * Time.deltaTime;
-        rb.AddForce(Movement);
+        Vector2 movement = new Vector2(horizontalInput * walkSpeed * runSpeed, rb.velocity.y);
+        rb.velocity = movement;
+    }
+
+    // Object jump
+    public void ObjectJump()
+    {
+        
     }
 }
