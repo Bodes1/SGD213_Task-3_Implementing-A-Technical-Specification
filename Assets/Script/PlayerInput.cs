@@ -13,6 +13,22 @@ public class PlayerInput : MonoBehaviour
     private float walkSpeed = 10f;
     private float runSpeed = 1f;
 
+    // Player jump height
+    private float jumpHeight = 7.5f;
+
+
+    // Can change the size of the box, which is used for detecting the ground
+    [SerializeField]
+    private Vector2 boxSize;
+
+    // Can change the box position
+    [SerializeField]
+    private float castDistance;
+
+    // Can set what layer to detect, which should be set to ground
+    [SerializeField]
+    private LayerMask groundLayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,8 +40,8 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         // Get input/direction
-        horizontalInput = Input.GetAxis("Horizontal");     
-
+        horizontalInput = Input.GetAxis("Horizontal");
+        
         // Give the 'Movement' script the direction and speed
         movement.ObjectMovement(horizontalInput, walkSpeed, runSpeed);
 
@@ -39,6 +55,48 @@ public class PlayerInput : MonoBehaviour
         {
             runSpeed = 1f;
             Debug.Log("Walking");
+        }
+
+        // If space is pressed and standing on floor, will jump
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            movement.ObjectJump(jumpHeight);
+        }
+    }
+
+    private bool IsGrounded()
+    {
+        if(Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer))
+        {  
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position-transform.up * castDistance, boxSize);
+    }
+
+
+
+    // Detects if player is on "Floor" or not using the floor tag, This is purly just for me to know if the player is touching the ground
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            Debug.Log("Jumping");
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            Debug.Log("Touching Ground");
         }
     }
 }

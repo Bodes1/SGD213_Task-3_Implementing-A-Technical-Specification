@@ -18,17 +18,19 @@ public class Movement : MonoBehaviour
     {
         
     }
-
+    
     // Object Movement, if sprinting adds to the walk speed 
     public void ObjectMovement(float horizontalInput, float walkSpeed, float runSpeed)
     {
+        // Player movement
         Vector2 movement = new Vector2(horizontalInput * walkSpeed * runSpeed, rb.velocity.y);
         rb.velocity = movement;
     }
 
     // Object jump
-    public void ObjectJump()
+    public void ObjectJump(float jumpHeight)
     {
-        
+        Vector2 jump = new Vector2(rb.velocity.x, jumpHeight);
+        rb.velocity = jump;
     }
 }
