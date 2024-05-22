@@ -14,7 +14,7 @@ public class PlayerInput : MonoBehaviour
     private float runSpeed = 1f;
 
     // Player jump height
-    private float jumpHeight = 7.5f;
+    private float jumpHeight = 16f;
 
 
     // Can change the size of the box, which is used for detecting the ground
