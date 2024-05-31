@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
     private float horizontalInput;
 
     // Player walk speed and run speed multipler
-    private float walkSpeed = 10f;
+    private float walkSpeed = 7.5f;
     private float runSpeed = 1f;
 
     // Player jump height
@@ -48,7 +48,7 @@ public class PlayerInput : MonoBehaviour
         // If shift is press, itll multiple the player movement, making it sprint
         if (Input.GetButtonDown("Sprint")) 
         {
-            runSpeed = 2f;
+            runSpeed = 2.5f;
             Debug.Log("Sprinting");
         }
         else if (Input.GetButtonUp("Sprint"))
