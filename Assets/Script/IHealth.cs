@@ -1,6 +1,8 @@
+using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class IHealth : MonoBehaviour
@@ -9,20 +11,20 @@ public class IHealth : MonoBehaviour
     private Image healthBar;
     private float healthAmount = 100f;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        
+        // Reloads the scene when health hits zero
+        if (healthAmount <= 0)
+        {
+            // Fine trun later
+            Application.LoadLevel(Application.loadedLevel);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    // Gets damage and updates the health bar
     public void Damage(float damage)
     {
         healthAmount -= damage;
+        healthBar.fillAmount = healthAmount / 100f;
     }
 }

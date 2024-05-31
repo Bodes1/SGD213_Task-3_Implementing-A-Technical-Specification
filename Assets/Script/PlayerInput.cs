@@ -80,23 +80,4 @@ public class PlayerInput : MonoBehaviour
     {
         Gizmos.DrawWireCube(transform.position-transform.up * castDistance, boxSize);
     }
-
-
-
-    // Detects if player is on "Floor" or not using the floor tag, This is purly just for me to know if the player is touching the ground
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            Debug.Log("Jumping");
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            Debug.Log("Touching Ground");
-        }
-    }
 }

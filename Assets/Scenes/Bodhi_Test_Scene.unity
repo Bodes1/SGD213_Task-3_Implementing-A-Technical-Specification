@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 435717850}
   - component: {fileID: 435717849}
   - component: {fileID: 435717848}
-  - component: {fileID: 435717847}
+  - component: {fileID: 435717854}
   - component: {fileID: 435717851}
   - component: {fileID: 435717852}
   - component: {fileID: 435717853}
@@ -145,27 +145,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!50 &435717847
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 435717846}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 4
-  m_Material: {fileID: 6200000, guid: 85ee949e8ae50154790d5a41d7edca99, type: 2}
-  m_Interpolate: 1
-  m_SleepingMode: 0
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!61 &435717848
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -302,6 +281,27 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!50 &435717854
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435717846}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 4
+  m_Material: {fileID: 6200000, guid: 85ee949e8ae50154790d5a41d7edca99, type: 2}
+  m_Interpolate: 1
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &539381719
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,6 +612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552f941dba8ec3042b5f52a02a4a3ed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getHealthManager: {fileID: 2096967388}
 --- !u!1 &1043911251
 GameObject:
   m_ObjectHideFlags: 0
@@ -23445,6 +23446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415f07b1f92ffea47a5f8ff7dcffdd96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBar: {fileID: 1491034134}
 --- !u!4 &2096967390
 Transform:
   m_ObjectHideFlags: 0
