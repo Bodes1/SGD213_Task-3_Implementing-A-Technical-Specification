@@ -6,10 +6,12 @@ public class PlayerCollision : MonoBehaviour
 {
     // This is so you dont get a null reference exception
     [SerializeField]
-    private GameObject getHealthManager;
+    private GameObject getBarManager;
 
     // Variable for IHealth
     private IHealth updateHealth;
+
+    private InvincibleStarPowerup updateStar;
 
     // Damage the player should take
     private float damageTaken;
@@ -17,12 +19,17 @@ public class PlayerCollision : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (getHealthManager != null)
+        if (getBarManager != null)
         {
-            updateHealth = getHealthManager.GetComponent<IHealth>();
+            updateHealth = getBarManager.GetComponent<IHealth>();
+            updateStar = getBarManager.GetComponent<InvincibleStarPowerup>();
             if (updateHealth == null)
             {
                 Debug.LogError("IHealth component is not found on the assigned GameObject.");
+            }
+            if (updateStar == null)
+            {
+                Debug.LogError("Star component is not found on the assigned GameObject.");
             }
         }
 
@@ -39,6 +46,20 @@ public class PlayerCollision : MonoBehaviour
             if (updateHealth != null)
             {
                 updateHealth.Damage(damageTaken);
+            }
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("PickUp"))
+        {
+            Debug.Log("PickUp");
+
+            if (updateStar != null)
+            {
+                updateStar.Invincible();
+                Destroy(collision.gameObject);
             }
         }
     }

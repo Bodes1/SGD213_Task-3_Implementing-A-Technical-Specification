@@ -1,6 +1,3 @@
-using Mono.Cecil.Cil;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,8 +13,8 @@ public class IHealth : MonoBehaviour
         // Reloads the scene when health hits zero
         if (healthAmount <= 0)
         {
-            // Fine trun later
-            Application.LoadLevel(Application.loadedLevel);
+            // Change scene name to load that scene
+            SceneManager.LoadScene("Bodhi_Test_Scene");
         }
     }
 
