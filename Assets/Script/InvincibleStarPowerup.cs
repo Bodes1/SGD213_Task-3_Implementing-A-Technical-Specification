@@ -14,6 +14,18 @@ public class InvincibleStarPowerup : MonoBehaviour
     [SerializeField]
     private float powerupDuration = 5f;
 
+    private PlayerCollision status;
+    [SerializeField]
+    private GameObject player;
+
+    private void Start()
+    {
+        if (player != null) 
+        {
+            status = player.GetComponent<PlayerCollision>();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -38,11 +50,13 @@ public class InvincibleStarPowerup : MonoBehaviour
         starBar.fillAmount = starAmount;
         currentPowerupTime = powerupDuration;
         isPowerupActive = true;
+        status.Empowered();
         Debug.Log("Actives");
     }
 
     private void Deactivate()
     {
         isPowerupActive = false;
+        status.Depowered();
     }
 }

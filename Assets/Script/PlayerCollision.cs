@@ -16,6 +16,8 @@ public class PlayerCollision : MonoBehaviour
     // Damage the player should take
     private float damageTaken;
 
+    private bool cantDie = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,17 +41,28 @@ public class PlayerCollision : MonoBehaviour
     // Take damage when touching an enemy
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (cantDie == true)
         {
-            Debug.Log("Hit");
-
-            if (updateHealth != null)
+            if (collision.gameObject.CompareTag("Enemy"))
             {
-                updateHealth.Damage(damageTaken);
+                Destroy(collision.gameObject);
+            }
+        }
+        else
+        {
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                Debug.Log("Hit");
+
+                if (updateHealth != null)
+                {
+                    updateHealth.Damage(damageTaken);
+                }
             }
         }
     }
 
+    // Checks if touching a pickup star
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("PickUp"))
@@ -62,5 +75,16 @@ public class PlayerCollision : MonoBehaviour
                 Destroy(collision.gameObject);
             }
         }
+    }
+
+    // Checks if player is empowered or not
+    public void Empowered()
+    {
+        cantDie = true;
+    }
+
+    public void Depowered()
+    {
+        cantDie = false;
     }
 }
