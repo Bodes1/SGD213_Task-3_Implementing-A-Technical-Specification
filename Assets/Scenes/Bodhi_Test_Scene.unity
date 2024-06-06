@@ -426,7 +426,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
@@ -450,6 +450,7 @@ GameObject:
   - component: {fileID: 760583129}
   - component: {fileID: 760583128}
   - component: {fileID: 760583134}
+  - component: {fileID: 760583135}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -613,6 +614,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getBarManager: {fileID: 2096967388}
+--- !u!114 &760583135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760583127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 415f07b1f92ffea47a5f8ff7dcffdd96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 1491034134}
 --- !u!1 &909612526
 GameObject:
   m_ObjectHideFlags: 0
