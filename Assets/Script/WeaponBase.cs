@@ -7,40 +7,40 @@ using UnityEngine;
 public abstract class WeaponBase : MonoBehaviour
 {
     [Header("Controls")]
-    [SerializeField]
-    protected float fireDelay = 1f;
+    [SerializeField] protected float fireDelay = 1f;
+    [SerializeField] protected GameObject bullet;
+    [SerializeField] protected int initialAmmo = 0;
 
-    [SerializeField]
-    protected GameObject bullet;
+    protected int currentAmmo;
+    private const int MaxAmmo = 5;
 
-    [SerializeField]
-    protected int initialAmmo = 0; // Initial ammo count set to 0
-
-    protected int currentAmmo; // Current ammo count
-
-    private const int maxAmmo = 5; // Max ammo count
-
+    /// <summary>
+    /// Gets or sets the bullet prefab used by this weapon.
+    /// </summary>
     public GameObject Bullet
     {
-        get { return bullet; }
-        set { bullet = value; }
+        get => bullet;
+        set => bullet = value;
     }
 
     [Header("References")]
-    [SerializeField]
-    protected Transform bulletSpawnPoint;
+    [SerializeField] protected Transform bulletSpawnPoint;
+    [SerializeField] protected AmmoUIManager ammoUIManager;
 
-    [SerializeField]
-    protected AmmoUIManager ammoUIManager; // Reference to the Ammo UI Manager
-
+    /// <summary>
+    /// Gets or sets the transform at which bullets will spawn.
+    /// </summary>
     public Transform BulletSpawnPoint
     {
-        get { return bulletSpawnPoint; }
-        set { bulletSpawnPoint = value; }
+        get => bulletSpawnPoint;
+        set => bulletSpawnPoint = value;
     }
 
     protected float lastFiredTime = 0f;
 
+    /// <summary>
+    /// Initializes the weapon's ammo and sets the last fired time to zero.
+    /// </summary>
     protected virtual void Start()
     {
         InitializeAmmo();
@@ -48,22 +48,22 @@ public abstract class WeaponBase : MonoBehaviour
 
     /// <summary>
     /// Abstract method to handle the shooting mechanism. Each derived class must implement its own shooting behavior.
-    /// Should account for the fire delay to control shooting frequency.
     /// </summary>
     public abstract void Shoot();
 
     /// <summary>
-    /// Method to initialize ammo and update the UI.
+    /// Initializes ammo and updates the UI.
     /// </summary>
     public void InitializeAmmo()
     {
-        currentAmmo = initialAmmo; // Initialize current ammo
-        ammoUIManager.UpdateAmmoUI(currentAmmo); // Initialize UI with the current ammo count
+        currentAmmo = initialAmmo;
+        ammoUIManager.UpdateAmmoUI(currentAmmo);
     }
 
     /// <summary>
-    /// Method to consume ammo and update the UI. Returns true if ammo was successfully used, false if out of ammo.
+    /// Consumes ammo and updates the UI. Returns true if ammo was successfully used, false if out of ammo.
     /// </summary>
+    /// <returns>True if ammo was successfully used, false if out of ammo.</returns>
     protected bool ConsumeAmmo()
     {
         if (currentAmmo > 0)
@@ -80,20 +80,21 @@ public abstract class WeaponBase : MonoBehaviour
     }
 
     /// <summary>
-    /// Method to reload ammo and update the UI.
+    /// Reloads ammo and updates the UI.
     /// </summary>
     public void ReloadAmmo()
     {
-        currentAmmo = Mathf.Clamp(currentAmmo + initialAmmo, 0, maxAmmo);
-        ammoUIManager.UpdateAmmoUI(currentAmmo); // Update the UI with the new ammo count
+        currentAmmo = Mathf.Clamp(currentAmmo + initialAmmo, 0, MaxAmmo);
+        ammoUIManager.UpdateAmmoUI(currentAmmo);
     }
 
     /// <summary>
-    /// Method to add ammo from a pickup and update the UI.
+    /// Adds ammo from a pickup and updates the UI.
     /// </summary>
+    /// <param name="amount">The amount of ammo to add.</param>
     public void AddAmmo(int amount)
     {
-        currentAmmo = Mathf.Clamp(currentAmmo + amount, 0, maxAmmo);
+        currentAmmo = Mathf.Clamp(currentAmmo + amount, 0, MaxAmmo);
         ammoUIManager.UpdateAmmoUI(currentAmmo);
     }
 }

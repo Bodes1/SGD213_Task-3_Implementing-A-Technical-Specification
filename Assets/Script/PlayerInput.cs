@@ -1,31 +1,33 @@
 using UnityEngine;
 
+/// <summary>
+/// Handles player input for movement, jumping, and shooting.
+/// </summary>
 public class PlayerInput : MonoBehaviour
 {
-    public PlayerSettings settings; // Reference to the Scriptable Object
+    [SerializeField] private PlayerSettings settings; // Reference to the Scriptable Object
 
-    private PlayerMovement movement;
-    private GroundCheck groundCheck;
+    private PlayerMovement _movement;
+    private GroundCheck _groundCheck;
+    private WeaponBase _weapon;
+    private float _currentRunMultiplier = 1f; // Current running speed multiplier
 
-    private WeaponBase weapon;
-
-    private float currentRunMultiplier = 1f; // Current running speed multiplier
+    /// <summary>
+    /// Gets or sets the weapon the player is using.
+    /// </summary>
+    public WeaponBase Weapon
+    {
+        get => _weapon;
+        set => _weapon = value;
+    }
 
     private void Awake()
     {
-        movement = GetComponent<PlayerMovement>();
-        groundCheck = GetComponent<GroundCheck>();
-    }
-    public WeaponBase Weapon
-    {
-        get { return weapon; }
-        set { weapon = value; }
+        _movement = GetComponent<PlayerMovement>();
+        _groundCheck = GetComponent<GroundCheck>();
+        _weapon = GetComponent<WeaponBase>();
     }
 
-    private void Start()
-    {
-        weapon = GetComponent<WeaponBase>();
-    }
     private void Update()
     {
         HandleMovementInput();
@@ -33,35 +35,44 @@ public class PlayerInput : MonoBehaviour
         HandleShootingInput();
     }
 
+    /// <summary>
+    /// Handles player movement input.
+    /// </summary>
     private void HandleMovementInput()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-        float effectiveSpeed = settings.walkSpeed * currentRunMultiplier; // Use the speed from settings
-        movement.Move(horizontalInput, effectiveSpeed);
+        float effectiveSpeed = settings.walkSpeed * _currentRunMultiplier; // Use the speed from settings
+        _movement.Move(horizontalInput, effectiveSpeed);
 
         if (Input.GetButtonDown("Sprint"))
         {
-            currentRunMultiplier = settings.runMultiplier; // Use the run multiplier from settings
+            _currentRunMultiplier = settings.runMultiplier; // Use the run multiplier from settings
         }
         else if (Input.GetButtonUp("Sprint"))
         {
-            currentRunMultiplier = 1f;
+            _currentRunMultiplier = 1f;
         }
     }
 
+    /// <summary>
+    /// Handles player jump input.
+    /// </summary>
     private void HandleJumpInput()
     {
-        if (Input.GetButtonDown("Jump") && groundCheck.IsGrounded())
+        if (Input.GetButtonDown("Jump") && _groundCheck.IsGrounded())
         {
-            movement.Jump(settings.jumpHeight); // Use the jump height from settings
+            _movement.Jump(settings.jumpHeight); // Use the jump height from settings
         }
     }
 
+    /// <summary>
+    /// Handles player shooting input.
+    /// </summary>
     private void HandleShootingInput()
     {
-        if (Input.GetButton("Fire1") && weapon != null)
+        if (Input.GetButton("Fire1") && _weapon != null)
         {
-            weapon.Shoot();
+            _weapon.Shoot();
         }
     }
 }

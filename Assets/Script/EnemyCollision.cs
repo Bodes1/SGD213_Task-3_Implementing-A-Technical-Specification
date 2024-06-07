@@ -1,23 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyCollision : MonoBehaviour
 {
-    // Can change the size of the box
-    [SerializeField]
-    private Vector2 boxSize;
+    [SerializeField] private Vector2 boxSize; // Can change the size of the box
+    [SerializeField] private float castDistance; // Can change the box position
+    [SerializeField] private LayerMask playerLayer; // Can set what layer to detect, which should be set to default
 
-    // Can change the box position
-    [SerializeField]
-    private float castDistance;
-
-    // Can set what layer to detect, which should be set to default
-    [SerializeField]
-    private LayerMask playerLayer;
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // If something on the Player layer touches the box the enemy will die
         if (IsStompedOn())
@@ -26,21 +15,17 @@ public class EnemyCollision : MonoBehaviour
         }
     }
 
-    // Code for drawing the box
+    /// <summary>
+    /// Code for drawing the box and checking if the enemy is stomped on.
+    /// </summary>
     private bool IsStompedOn()
     {
-        if (Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, playerLayer))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, playerLayer);
     }
 
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position - transform.up * castDistance, boxSize);
     }
 }

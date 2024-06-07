@@ -1,9 +1,12 @@
 using UnityEngine;
 
+/// <summary>
+/// Handles the behavior of a bullet, including movement, collision detection, and destruction after a set lifetime.
+/// </summary>
 public class BulletBehaviour : MonoBehaviour
 {
-    public float speed = 10f; // Speed at which the projectile moves
-    public float lifetime = 5f; // Lifetime of the projectile before it gets destroyed
+    [SerializeField] private float speed = 10f; // Speed at which the projectile moves
+    [SerializeField] private float lifetime = 5f; // Lifetime of the projectile before it gets destroyed
 
     private void Start()
     {
@@ -17,6 +20,10 @@ public class BulletBehaviour : MonoBehaviour
         transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// Handles collision with an enemy, destroying both the bullet and the enemy upon impact.
+    /// </summary>
+    /// <param name="collision">The Collider2D data associated with this trigger event.</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))

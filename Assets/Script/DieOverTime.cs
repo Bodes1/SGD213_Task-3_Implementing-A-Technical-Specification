@@ -12,8 +12,6 @@ public class DieOverTime : MonoBehaviour
     [SerializeField]
     private float lifetime = 15f;
     
-
-    // Update is called once per frame
     void Update()
     {
         Destroy(gameObject, lifetime);

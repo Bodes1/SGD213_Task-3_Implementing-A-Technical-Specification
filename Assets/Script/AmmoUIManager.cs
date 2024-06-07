@@ -4,42 +4,49 @@ using UnityEngine.UI;
 
 public class AmmoUIManager : MonoBehaviour
 {
-    public List<Image> ammoBars; // List of Image elements representing ammo bars
-    private int currentAmmo;
+    [SerializeField] private List<Image> ammoBars; // List of Image elements representing ammo bars
+    private int _currentAmmo;
 
-    void Start()
+    private void Start()
     {
-        currentAmmo = 0; // Initialize with zero ammo
-        UpdateAmmoUI(currentAmmo); // Initialize UI with the current ammo count
+        _currentAmmo = 0; // Initialize with zero ammo
+        UpdateAmmoUI(_currentAmmo); // Initialize UI with the current ammo count
     }
 
-    // Call this method to use one ammo
+    /// <summary>
+    /// Call this method to use one ammo.
+    /// </summary>
     public void UseAmmo()
     {
-        if (currentAmmo > 0)
+        if (_currentAmmo > 0)
         {
-            currentAmmo--;
-            ammoBars[currentAmmo].enabled = false; // Hide the ammo bar
+            _currentAmmo--;
+            ammoBars[_currentAmmo].enabled = false; // Hide the ammo bar
         }
     }
 
-    // Call this method to reset ammo
+    /// <summary>
+    /// Call this method to reset ammo.
+    /// </summary>
     public void ResetAmmo()
     {
-        currentAmmo = ammoBars.Count;
+        _currentAmmo = ammoBars.Count;
         foreach (Image bar in ammoBars)
         {
             bar.enabled = true; // Show all ammo bars
         }
     }
 
-    // Call this method to update the UI with the current ammo count
+    /// <summary>
+    /// Call this method to update the UI with the current ammo count.
+    /// </summary>
+    /// <param name="ammoCount">The current ammo count.</param>
     public void UpdateAmmoUI(int ammoCount)
     {
-        currentAmmo = ammoCount;
+        _currentAmmo = ammoCount;
         for (int i = 0; i < ammoBars.Count; i++)
         {
-            ammoBars[i].enabled = i < currentAmmo;
+            ammoBars[i].enabled = i < _currentAmmo;
         }
     }
 }

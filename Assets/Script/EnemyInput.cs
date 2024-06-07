@@ -1,10 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles the input and movement logic for enemy characters, including walking, jumping, and sprinting.
+/// </summary>
 public class EnemyInput : MonoBehaviour
 {
-    
     [SerializeField] private float walkSpeed = 2f; // Movement speed of enemy
     [SerializeField] private float distance = 5f; // Distance variable
     [SerializeField] private float jumpIntervalMin = 2f; // Minimum jump interval
@@ -15,19 +16,19 @@ public class EnemyInput : MonoBehaviour
     [SerializeField] private float sprintMultiplier = 1.5f; // Speed multiplier during sprint
     [SerializeField] private float jumpForce = 5f; // Jump force
 
-    private IMoveable movement;  // Use the IMoveable interface
+    private IMoveable _movement; // Use the IMoveable interface
 
-    private Vector3 startPosition; // Variable for starting position
-    private float movingDirection; // Float variable to check direction of movement
-    private int randomDirection; // Variable to hold a random number
+    private Vector3 _startPosition; // Variable for starting position
+    private float _movingDirection; // Float variable to check direction of movement
+    private int _randomDirection; // Variable to hold a random number
 
-    private float jumpTimer;
-    private float sprintTimer;
+    private float _jumpTimer;
+    private float _sprintTimer;
 
     private void Awake()
     {
-        movement = GetComponent<IMoveable>(); // Ensure the component implements IMoveable
-        if (movement == null)
+        _movement = GetComponent<IMoveable>(); // Ensure the component implements IMoveable
+        if (_movement == null)
         {
             Debug.LogError("IMoveable component is missing from the GameObject");
         }
@@ -36,47 +37,51 @@ public class EnemyInput : MonoBehaviour
     private void Start()
     {
         // Initialize timers
-        jumpTimer = Random.Range(jumpIntervalMin, jumpIntervalMax); // Randomize initial jump time
-        sprintTimer = Random.Range(sprintIntervalMin, sprintIntervalMax); // Randomize initial sprint time
+        _jumpTimer = Random.Range(jumpIntervalMin, jumpIntervalMax); // Randomize initial jump time
+        _sprintTimer = Random.Range(sprintIntervalMin, sprintIntervalMax); // Randomize initial sprint time
 
         // Initialize other properties
-        randomDirection = Random.Range(0, 2);
-        movingDirection = (randomDirection == 0) ? 1f : -1f;
-        startPosition = transform.position;
+        _randomDirection = Random.Range(0, 2);
+        _movingDirection = (_randomDirection == 0) ? 1f : -1f;
+        _startPosition = transform.position;
     }
 
     private void Update()
     {
         // Handle movement
-        movement.Move(movingDirection, walkSpeed);
+        _movement.Move(_movingDirection, walkSpeed);
 
         // Handle turning
-        if (movingDirection == 1f && transform.position.x >= startPosition.x + distance)
+        if (_movingDirection == 1f && transform.position.x >= _startPosition.x + distance)
         {
-            movingDirection = -1f;
+            _movingDirection = -1f;
         }
-        else if (movingDirection == -1f && transform.position.x <= startPosition.x - distance)
+        else if (_movingDirection == -1f && transform.position.x <= _startPosition.x - distance)
         {
-            movingDirection = 1f;
+            _movingDirection = 1f;
         }
 
         // Handle periodic jumping
-        jumpTimer -= Time.deltaTime;
-        if (jumpTimer <= 0)
+        _jumpTimer -= Time.deltaTime;
+        if (_jumpTimer <= 0)
         {
-            movement.Jump(jumpForce); // Use the jump force defined in the settings
-            jumpTimer = Random.Range(jumpIntervalMin, jumpIntervalMax); // Reset the jump timer
+            _movement.Jump(jumpForce); // Use the jump force defined in the settings
+            _jumpTimer = Random.Range(jumpIntervalMin, jumpIntervalMax); // Reset the jump timer
         }
 
         // Handle periodic sprinting
-        sprintTimer -= Time.deltaTime;
-        if (sprintTimer <= 0)
+        _sprintTimer -= Time.deltaTime;
+        if (_sprintTimer <= 0)
         {
             StartCoroutine(SprintRoutine());
-            sprintTimer = Random.Range(sprintIntervalMin, sprintIntervalMax); // Reset the sprint timer
+            _sprintTimer = Random.Range(sprintIntervalMin, sprintIntervalMax); // Reset the sprint timer
         }
     }
 
+    /// <summary>
+    /// Coroutine to handle the sprinting behavior for a specified duration.
+    /// </summary>
+    /// <returns>IEnumerator for coroutine.</returns>
     private IEnumerator SprintRoutine()
     {
         float originalSpeed = walkSpeed;

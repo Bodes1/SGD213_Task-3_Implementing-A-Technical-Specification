@@ -1,39 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles player collision with enemies and pickups, and manages player state changes such as invincibility and health.
+/// </summary>
 public class PlayerCollision : MonoBehaviour
 {
     [SerializeField] private GameObject getBarManager;
 
-    private PlayerHealth updateHealth;
-    private InvincibleStarPowerup updateStar;
+    private PlayerHealth _updateHealth;
+    private InvincibleStarPowerup _updateStar;
 
-    private float damageTaken;
-    private bool cantDie = false;
+    private float _damageTaken;
+    private bool _cantDie;
 
-    void Start()
+    private void Start()
     {
         if (getBarManager != null)
         {
-            updateHealth = getBarManager.GetComponent<PlayerHealth>();
-            updateStar = getBarManager.GetComponent<InvincibleStarPowerup>();
-            if (updateHealth == null)
+            _updateHealth = getBarManager.GetComponent<PlayerHealth>();
+            _updateStar = getBarManager.GetComponent<InvincibleStarPowerup>();
+            if (_updateHealth == null)
             {
                 Debug.LogError("PlayerHealth component is not found on the assigned GameObject.");
             }
-            if (updateStar == null)
+            if (_updateStar == null)
             {
                 Debug.LogError("InvincibleStarPowerup component is not found on the assigned GameObject.");
             }
         }
 
-        damageTaken = 1f;
+        _damageTaken = 1f;
     }
 
+    /// <summary>
+    /// Handles collision with enemies, dealing damage or destroying the enemy based on player state.
+    /// </summary>
+    /// <param name="collision">The collision data associated with this collision.</param>
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (cantDie)
+        if (_cantDie)
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
@@ -46,14 +51,18 @@ public class PlayerCollision : MonoBehaviour
             {
                 Debug.Log("Hit");
 
-                if (updateHealth != null)
+                if (_updateHealth != null)
                 {
-                    updateHealth.TakeDamage(damageTaken);
+                    _updateHealth.TakeDamage(_damageTaken);
                 }
             }
         }
     }
 
+    /// <summary>
+    /// Handles trigger events with pickups, applying effects such as health restoration, invincibility, or ammo addition.
+    /// </summary>
+    /// <param name="other">The Collider2D data associated with this trigger event.</param>
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Trigger Entered: " + other.gameObject.name);
@@ -65,18 +74,18 @@ public class PlayerCollision : MonoBehaviour
             {
                 case PickupType.Health:
                     Debug.Log("HealthPickup Triggered");
-                    if (updateHealth != null)
+                    if (_updateHealth != null)
                     {
-                        updateHealth.RestoreHealth(20f); // Use a value from the pickup if needed
+                        _updateHealth.RestoreHealth(20f); // Use a value from the pickup if needed
                         Destroy(other.gameObject);
                     }
                     break;
 
                 case PickupType.Invincible:
                     Debug.Log("InvinciblePickup Triggered");
-                    if (updateStar != null)
+                    if (_updateStar != null)
                     {
-                        updateStar.Invincible();
+                        _updateStar.Invincible();
                         Destroy(other.gameObject);
                     }
                     break;
@@ -94,13 +103,19 @@ public class PlayerCollision : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Empowers the player, making them invincible.
+    /// </summary>
     public void Empowered()
     {
-        cantDie = true;
+        _cantDie = true;
     }
 
+    /// <summary>
+    /// Depowers the player, removing their invincibility.
+    /// </summary>
     public void Depowered()
     {
-        cantDie = false;
+        _cantDie = false;
     }
 }

@@ -5,30 +5,24 @@ using UnityEngine;
 /// </summary>
 public class ObjectSpawner : MonoBehaviour
 {
-    // Array of prefabs to spawn
-    [SerializeField]
-    private GameObject[] pickups;
+    [SerializeField] private GameObject[] pickups; // Array of prefabs to spawn
+    [SerializeField] private float spawnDelay = 2f; // Delay between each spawn
 
-    // Delay between each spawn
-    [SerializeField]
-    private float spawnDelay = 2f;
-
-    // Renderer used to determine the bounds for spawning
-    private Renderer pickupSpriteRender;
+    private Renderer _pickupSpriteRenderer;
 
     /// <summary>
     /// Initializes the spawner by hiding its renderer and setting up repeated spawning.
     /// </summary>
-    void Start()
+    private void Start()
     {
-        pickupSpriteRender = GetComponent<Renderer>();
-        if (pickupSpriteRender != null)
+        _pickupSpriteRenderer = GetComponent<Renderer>();
+        if (_pickupSpriteRenderer != null)
         {
             // Hide the spawner's renderer to make it invisible
-            pickupSpriteRender.enabled = false;
+            _pickupSpriteRenderer.enabled = false;
 
             // Start the repeated spawning process
-            InvokeRepeating("Spawn", spawnDelay, spawnDelay);
+            InvokeRepeating(nameof(Spawn), spawnDelay, spawnDelay);
         }
         else
         {
@@ -39,12 +33,12 @@ public class ObjectSpawner : MonoBehaviour
     /// <summary>
     /// Spawns an object at a random horizontal position within the bounds of the renderer.
     /// </summary>
-    void Spawn()
+    private void Spawn()
     {
-        if (pickupSpriteRender != null && pickups.Length > 0)
+        if (_pickupSpriteRenderer != null && pickups.Length > 0)
         {
-            float x1 = transform.position.x - pickupSpriteRender.bounds.size.x / 2;
-            float x2 = transform.position.x + pickupSpriteRender.bounds.size.x / 2;
+            float x1 = transform.position.x - _pickupSpriteRenderer.bounds.size.x / 2;
+            float x2 = transform.position.x + _pickupSpriteRenderer.bounds.size.x / 2;
 
             // Randomly pick a point within the bounds of the renderer to spawn the object
             Vector2 spawnPoint = new Vector2(Random.Range(x1, x2), transform.position.y);

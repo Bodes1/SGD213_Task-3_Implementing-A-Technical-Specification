@@ -1,15 +1,18 @@
 using UnityEngine;
 
+/// <summary>
+/// Handles the movement of the player character.
+/// </summary>
 public class PlayerMovement : MonoBehaviour, IMoveable
 {
     [SerializeField] private Rigidbody2D rb;
-    private GroundCheck groundCheck;
+    private GroundCheck _groundCheck; // Reference to the GroundCheck component
 
     private void Awake()
     {
         if (rb == null)
-            rb = GetComponent<Rigidbody2D>();
-        groundCheck = GetComponent<GroundCheck>(); // Ensure the GroundCheck script is attached to the same GameObject
+            rb = GetComponent<Rigidbody2D>(); // Assign Rigidbody2D if not assigned in the Inspector
+        _groundCheck = GetComponent<GroundCheck>(); // Ensure the GroundCheck script is attached to the same GameObject
     }
 
     public void Move(float horizontalInput, float speed)
@@ -20,10 +23,9 @@ public class PlayerMovement : MonoBehaviour, IMoveable
 
     public void Jump(float jumpHeight)
     {
-        if (groundCheck.IsGrounded()) // Direct call to groundCheck's IsGrounded
+        if (_groundCheck.IsGrounded()) // Direct call to groundCheck's IsGrounded
         {
             rb.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Impulse);
         }
     }
-
 }
