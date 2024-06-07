@@ -14,7 +14,7 @@ public class IHealth : MonoBehaviour
         if (healthAmount <= 0)
         {
             // Change scene name to load that scene
-            SceneManager.LoadScene("Bodhi_Test_Scene");
+            SceneManager.LoadScene("MainScene");
         }
     }
 

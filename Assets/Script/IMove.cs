@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IMove : MonoBehaviour
+public interface IMove 
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    float speed { get; set; }
+    void SetDirection(float x, float y);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
+
