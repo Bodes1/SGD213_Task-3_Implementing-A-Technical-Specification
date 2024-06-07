@@ -4,64 +4,83 @@ using UnityEngine;
 
 public class EnemyInput : MonoBehaviour
 {
-    //// Make move varibale
-    //private EnemyMovement movement;
+    private IMoveable movement;  // Use the IMoveable interface
 
-    //// Movement speed of enemy
-    //[SerializeField]
-    //private float enemyWalkSpeed;
+    [SerializeField] private float enemyWalkSpeed = 2f; // Movement speed of enemy
+    [SerializeField] private float distance = 5f; // Distance variable
 
-    //// Distance varible
-    //[SerializeField]
-    //private float distance;
+    private Vector3 startPosition; // Variable for starting position
+    private float movingDirection; // Float variable to check direction of movement
+    private int randomDirection; // Variable to hold a random number
 
-    //// Varible for starting position
-    //private Vector3 startPosition;
+    private float jumpTimer;
+    private float sprintTimer;
 
-    //// bool varible to check direction of movement
-    //private float movingRight;
+    [SerializeField] private float jumpIntervalMin = 2f;
+    [SerializeField] private float jumpIntervalMax = 5f;
+    [SerializeField] private float sprintIntervalMin = 5f;
+    [SerializeField] private float sprintIntervalMax = 10f;
+    [SerializeField] private float sprintDuration = 2f;
+    [SerializeField] private float sprintMultiplier = 1.5f;
 
-    //// Varible to hold a number
-    //private int randomDirection;
+    private void Awake()
+    {
+        movement = GetComponent<IMoveable>(); // Ensure the component implements IMoveable
+        if (movement == null)
+        {
+            Debug.LogError("IMoveable component is missing from the GameObject");
+        }
+    }
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-    //    // Enemey will have a 50/50 chance to either go left or right first
-    //    randomDirection = Random.Range(0, 2);
-    //    if (randomDirection == 0 )
-    //    {
-    //        // Goes to the right
-    //        movingRight = 1f;
-    //    }
-    //    else
-    //    {
-    //        // Goes to the left
-    //        movingRight = -1f;
-    //    }
+    private void Start()
+    {
+        // Initialize timers
+        jumpTimer = Random.Range(jumpIntervalMin, jumpIntervalMax); // Randomize initial jump time
+        sprintTimer = Random.Range(sprintIntervalMin, sprintIntervalMax); // Randomize initial sprint time
 
-    //    // Getting the "move" component
-    //    movement = GetComponent<EnemyMovement>();
+        // Initialize other properties
+        randomDirection = Random.Range(0, 2);
+        movingDirection = (randomDirection == 0) ? 1f : -1f;
+        startPosition = transform.position;
+    }
 
-    //    // Get initial spawn position
-    //    startPosition = transform.position;
-    //}
+    private void Update()
+    {
+        // Handle movement
+        movement.Move(movingDirection, enemyWalkSpeed);
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    // Moves the enemy
-    //    movement.ObjectMovement(movingRight, enemyWalkSpeed, 1);
+        // Handle turning
+        if (movingDirection == 1f && transform.position.x >= startPosition.x + distance)
+        {
+            movingDirection = -1f;
+        }
+        else if (movingDirection == -1f && transform.position.x <= startPosition.x - distance)
+        {
+            movingDirection = 1f;
+        }
 
-    //    // When the enemy moves a certain distance away from there start position they will turn around
-    //    if (movingRight == 1f && transform.position.x >= startPosition.x + distance)
-    //    {
-    //        movingRight = -1f;
-    //    }
+        // Handle periodic jumping
+        jumpTimer -= Time.deltaTime;
+        if (jumpTimer <= 0)
+        {
+            movement.Jump(((EnemyMovement)movement).jumpForce); // Use the jump force defined in the movement script
+            jumpTimer = Random.Range(jumpIntervalMin, jumpIntervalMax); // Reset the jump timer
+        }
 
-    //    if (movingRight == -1f && transform.position.x <= startPosition.x - distance)
-    //    {
-    //        movingRight = 1f;
-    //    }
-    //}
+        // Handle periodic sprinting
+        sprintTimer -= Time.deltaTime;
+        if (sprintTimer <= 0)
+        {
+            StartCoroutine(SprintRoutine());
+            sprintTimer = Random.Range(sprintIntervalMin, sprintIntervalMax); // Reset the sprint timer
+        }
+    }
+
+    private IEnumerator SprintRoutine()
+    {
+        float originalSpeed = enemyWalkSpeed;
+        enemyWalkSpeed *= sprintMultiplier; // Increase speed for sprinting
+        yield return new WaitForSeconds(sprintDuration); // Sprint duration
+        enemyWalkSpeed = originalSpeed; // Reset to original speed
+    }
 }

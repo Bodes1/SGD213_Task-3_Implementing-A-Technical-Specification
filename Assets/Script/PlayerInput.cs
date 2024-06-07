@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    private PlayerMovement movement; // Reference to the PlayerMovement component
-    private GroundCheck groundCheck; // Reference to the GroundCheck component
+    public PlayerSettings settings; // Reference to the Scriptable Object
 
-    [SerializeField] private float walkSpeed = 7.5f; // Player walk speed
-    [SerializeField] private float runSpeedMultiplier = 2.5f; // Multiplier for running speed
-    [SerializeField] private float jumpHeight = 16f; // Player jump height
+    private PlayerMovement movement;
+    private GroundCheck groundCheck;
 
     private float currentRunMultiplier = 1f; // Current running speed multiplier
 
@@ -26,12 +24,12 @@ public class PlayerInput : MonoBehaviour
     private void HandleMovementInput()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-        float effectiveSpeed = walkSpeed * currentRunMultiplier;
+        float effectiveSpeed = settings.walkSpeed * currentRunMultiplier; // Use the speed from settings
         movement.Move(horizontalInput, effectiveSpeed);
 
         if (Input.GetButtonDown("Sprint"))
         {
-            currentRunMultiplier = runSpeedMultiplier;
+            currentRunMultiplier = settings.runMultiplier; // Use the run multiplier from settings
         }
         else if (Input.GetButtonUp("Sprint"))
         {
@@ -43,7 +41,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && groundCheck.IsGrounded())
         {
-            movement.Jump(jumpHeight);
+            movement.Jump(settings.jumpHeight); // Use the jump height from settings
         }
     }
 }
