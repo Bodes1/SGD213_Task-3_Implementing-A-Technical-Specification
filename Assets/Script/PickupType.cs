@@ -5,5 +5,6 @@ using UnityEngine;
 public enum PickupType
 {
     Health,
-    Invincible
+    Invincible,
+    Ammo
 }

@@ -80,6 +80,16 @@ public class PlayerCollision : MonoBehaviour
                         Destroy(other.gameObject);
                     }
                     break;
+
+                case PickupType.Ammo:
+                    Debug.Log("AmmoPickup Triggered");
+                    WeaponBase weapon = GetComponentInChildren<WeaponBase>();
+                    if (weapon != null)
+                    {
+                        weapon.AddAmmo(5); // Add 5 ammo
+                        Destroy(other.gameObject);
+                    }
+                    break;
             }
         }
     }

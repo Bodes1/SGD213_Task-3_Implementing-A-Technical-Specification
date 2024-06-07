@@ -7,6 +7,8 @@ public class PlayerInput : MonoBehaviour
     private PlayerMovement movement;
     private GroundCheck groundCheck;
 
+    private WeaponBase weapon;
+
     private float currentRunMultiplier = 1f; // Current running speed multiplier
 
     private void Awake()
@@ -14,11 +16,21 @@ public class PlayerInput : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         groundCheck = GetComponent<GroundCheck>();
     }
+    public WeaponBase Weapon
+    {
+        get { return weapon; }
+        set { weapon = value; }
+    }
 
+    private void Start()
+    {
+        weapon = GetComponent<WeaponBase>();
+    }
     private void Update()
     {
         HandleMovementInput();
         HandleJumpInput();
+        HandleShootingInput();
     }
 
     private void HandleMovementInput()
@@ -42,6 +54,14 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetButtonDown("Jump") && groundCheck.IsGrounded())
         {
             movement.Jump(settings.jumpHeight); // Use the jump height from settings
+        }
+    }
+
+    private void HandleShootingInput()
+    {
+        if (Input.GetButton("Fire1") && weapon != null)
+        {
+            weapon.Shoot();
         }
     }
 }
