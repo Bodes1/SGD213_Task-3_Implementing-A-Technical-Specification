@@ -1,49 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InvincibleStarPowerup : MonoBehaviour
 {
-    // Variables to help say how long it has and such
-    [SerializeField]
-    private Image starBar;
+    [SerializeField] private Image starBar;
     private float starAmount = 0f;
     private bool isPowerupActive = false;
     private float currentPowerupTime;
-    [SerializeField]
-    private float powerupDuration = 5f;
+    [SerializeField] private float powerupDuration = 5f;
 
     private PlayerCollision status;
-    [SerializeField]
-    private GameObject player;
+    [SerializeField] private GameObject player;
 
     private void Start()
     {
-        if (player != null) 
+        if (player != null)
         {
             status = player.GetComponent<PlayerCollision>();
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // If active starts draining powerup
-        if (isPowerupActive == true)
+        if (isPowerupActive)
         {
             currentPowerupTime -= Time.deltaTime;
             starBar.fillAmount = currentPowerupTime / powerupDuration;
             Debug.Log("Draining");
 
-            if (currentPowerupTime <= 0f) 
+            if (currentPowerupTime <= 0f)
             {
                 Deactivate();
             }
         }
     }
 
-    // Actives powerup
     public void Invincible()
     {
         starAmount = 100f;
@@ -51,7 +42,16 @@ public class InvincibleStarPowerup : MonoBehaviour
         currentPowerupTime = powerupDuration;
         isPowerupActive = true;
         status.Empowered();
-        Debug.Log("Actives");
+        Debug.Log("Activated");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Invincible();
+            Destroy(gameObject); // Destroy the power-up after it has been collected
+        }
     }
 
     private void Deactivate()

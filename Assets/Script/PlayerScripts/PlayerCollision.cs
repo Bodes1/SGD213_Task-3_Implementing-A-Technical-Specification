@@ -4,44 +4,36 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
-    // This is so you dont get a null reference exception
-    [SerializeField]
-    private GameObject getBarManager;
+    [SerializeField] private GameObject getBarManager;
 
-    // Variable for IHealth
-    private IHealth updateHealth;
-
+    private PlayerHealth updateHealth;
     private InvincibleStarPowerup updateStar;
 
-    // Damage the player should take
     private float damageTaken;
-
     private bool cantDie = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         if (getBarManager != null)
         {
-            updateHealth = getBarManager.GetComponent<IHealth>();
+            updateHealth = getBarManager.GetComponent<PlayerHealth>();
             updateStar = getBarManager.GetComponent<InvincibleStarPowerup>();
             if (updateHealth == null)
             {
-                Debug.LogError("IHealth component is not found on the assigned GameObject.");
+                Debug.LogError("PlayerHealth component is not found on the assigned GameObject.");
             }
             if (updateStar == null)
             {
-                Debug.LogError("Star component is not found on the assigned GameObject.");
+                Debug.LogError("InvincibleStarPowerup component is not found on the assigned GameObject.");
             }
         }
 
         damageTaken = 1f;
     }
 
-    // Take damage when touching an enemy
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (cantDie == true)
+        if (cantDie)
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
@@ -56,28 +48,42 @@ public class PlayerCollision : MonoBehaviour
 
                 if (updateHealth != null)
                 {
-                    updateHealth.Damage(damageTaken);
+                    updateHealth.TakeDamage(damageTaken);
                 }
             }
         }
     }
 
-    // Checks if touching a pickup star
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("PickUp"))
-        {
-            Debug.Log("PickUp");
+        Debug.Log("Trigger Entered: " + other.gameObject.name);
 
-            if (updateStar != null)
+        PickupIdentifier identifier = other.GetComponent<PickupIdentifier>();
+        if (identifier != null)
+        {
+            switch (identifier.pickupType)
             {
-                updateStar.Invincible();
-                Destroy(collision.gameObject);
+                case PickupType.Health:
+                    Debug.Log("HealthPickup Triggered");
+                    if (updateHealth != null)
+                    {
+                        updateHealth.RestoreHealth(20f); // Use a value from the pickup if needed
+                        Destroy(other.gameObject);
+                    }
+                    break;
+
+                case PickupType.Invincible:
+                    Debug.Log("InvinciblePickup Triggered");
+                    if (updateStar != null)
+                    {
+                        updateStar.Invincible();
+                        Destroy(other.gameObject);
+                    }
+                    break;
             }
         }
     }
 
-    // Checks if player is empowered or not
     public void Empowered()
     {
         cantDie = true;

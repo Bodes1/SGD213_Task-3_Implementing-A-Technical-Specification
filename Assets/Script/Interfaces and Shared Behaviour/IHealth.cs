@@ -2,26 +2,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class IHealth : MonoBehaviour
+public interface IHealth
 {
-    [SerializeField]
-    private Image healthBar;
-    private float healthAmount = 100f;
+    void RestoreHealth(float amount);
+    void TakeDamage(float amount);
+    float GetCurrentHealth();
+    float GetMaxHealth();
 
-    private void Update()
-    {
-        // Reloads the scene when health hits zero
-        if (healthAmount <= 0)
-        {
-            // Change scene name to load that scene
-            SceneManager.LoadScene("MainScene");
-        }
-    }
-
-    // Gets damage and updates the health bar
-    public void Damage(float damage)
-    {
-        healthAmount -= damage;
-        healthBar.fillAmount = healthAmount / 100f;
-    }
 }
+

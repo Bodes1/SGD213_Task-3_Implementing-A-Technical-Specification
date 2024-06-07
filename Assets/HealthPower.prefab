@@ -12,11 +12,12 @@ GameObject:
   - component: {fileID: 3918819456729104688}
   - component: {fileID: 4353822843615507039}
   - component: {fileID: 2237735480296252164}
-  - component: {fileID: 122392827581593736}
-  - component: {fileID: 2136597060937255312}
+  - component: {fileID: -1933377968073181233}
+  - component: {fileID: -4013090728028419334}
   - component: {fileID: 1210886784734445390}
+  - component: {fileID: 1725285242428627391}
   m_Layer: 0
-  m_Name: StarPower
+  m_Name: HealthPower
   m_TagString: PickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f325b8d990ce65a4ca5dcbe47263772b, type: 3}
-  m_Color: {r: 1, g: 0.95686275, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.13914847, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
@@ -113,7 +114,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.6}
+  m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
 --- !u!50 &2237735480296252164
 Rigidbody2D:
@@ -136,7 +137,7 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &122392827581593736
+--- !u!61 &-1933377968073181233
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,7 +163,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7, y: 0.7}
   m_EdgeRadius: 0
---- !u!114 &2136597060937255312
+--- !u!114 &-4013090728028419334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,10 +172,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1344828157159750410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c09fdfda88250be48b8c3bd7217b6672, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a38e8f4692499c489bc645f525649a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupType: 1
+  healthAmount: 20
 --- !u!114 &1210886784734445390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,3 +189,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 10
+--- !u!114 &1725285242428627391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344828157159750410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c09fdfda88250be48b8c3bd7217b6672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupType: 0
