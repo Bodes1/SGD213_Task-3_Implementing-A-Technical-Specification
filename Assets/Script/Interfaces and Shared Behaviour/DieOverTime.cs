@@ -9,12 +9,13 @@ using UnityEngine;
 /// </summary>
 public class DieOverTime : MonoBehaviour
 {
-    public float lifetime = 15f;
+    [SerializeField]
+    private float lifetime = 15f;
     
 
     // Update is called once per frame
     void Update()
     {
-        
+        Destroy(gameObject, lifetime);
     }
 }

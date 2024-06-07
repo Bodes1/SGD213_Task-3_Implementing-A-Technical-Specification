@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3918819456729104688}
   - component: {fileID: 4353822843615507039}
   - component: {fileID: 2237735480296252164}
+  - component: {fileID: 1210886784734445390}
   m_Layer: 0
   m_Name: StarPower
   m_TagString: PickUp
@@ -133,3 +134,16 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1210886784734445390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344828157159750410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e49060f7b0625446a04de13ca3f7062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 10

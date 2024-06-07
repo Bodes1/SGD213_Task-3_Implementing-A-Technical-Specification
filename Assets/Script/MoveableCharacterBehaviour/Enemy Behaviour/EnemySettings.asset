@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a286c4bd0021a499ca6dac536b5678, type: 3}
   m_Name: EnemySettings
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  distance: 5
+  walkSpeed: 6
+  distance: 2
   jumpIntervalMin: 2
   jumpIntervalMax: 5
   sprintIntervalMin: 5
   sprintIntervalMax: 10
-  sprintDuration: 2
-  sprintMultiplier: 1.5
-  jumpForce: 5
+  sprintDuration: 2.5
+  sprintMultiplier: 2
+  jumpForce: 12

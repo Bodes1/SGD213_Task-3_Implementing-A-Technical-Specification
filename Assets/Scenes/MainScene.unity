@@ -175,6 +175,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1210886784734445390, guid: a2f8410d1bf69b74582d457682b2c05b, type: 3}
+      propertyPath: lifetime
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1344828157159750410, guid: a2f8410d1bf69b74582d457682b2c05b, type: 3}
       propertyPath: m_Name
       value: StarPower (1)
@@ -18376,7 +18380,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199534658}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 8.56, z: -10}
+  m_LocalPosition: {x: 0, y: 7.42, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40918,14 +40922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593cac1eb984a644f9aa752b61dcc19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyWalkSpeed: 2
-  distance: 2
-  jumpIntervalMin: 2
-  jumpIntervalMax: 5
-  sprintIntervalMin: 5
-  sprintIntervalMax: 10
-  sprintDuration: 2
-  sprintMultiplier: 1.5
+  settings: {fileID: 11400000, guid: 19735e65db86baa449dfe9617c6f0dd4, type: 2}
 --- !u!50 &1630220702
 Rigidbody2D:
   serializedVersion: 4
@@ -41052,8 +41049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4199f1b0bdddd7c409999de000b10cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  jumpForce: 16
 --- !u!114 &1630220707
 MonoBehaviour:
   m_ObjectHideFlags: 0
