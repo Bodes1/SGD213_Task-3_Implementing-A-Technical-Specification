@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerSettings", menuName = "Game Settings/Player Settings")]
+[CreateAssetMenu(fileName = "PlayerSettings", menuName = "Configurations/Player Settings")]
 public class PlayerSettings : ScriptableObject
 {
     public float walkSpeed = 5f;
