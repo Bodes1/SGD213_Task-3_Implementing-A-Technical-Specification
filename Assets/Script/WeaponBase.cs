@@ -8,17 +8,16 @@ public abstract class WeaponBase : MonoBehaviour
 {
     [Header("Controls")]
     [SerializeField]
-    protected float fireDelay = 0.5f;
+    protected float fireDelay = 1f;
 
     [SerializeField]
     protected GameObject bullet;
 
     [SerializeField]
-    protected int initialAmmo = 0; // Initial ammo count
+    protected int initialAmmo = 0; // Initial ammo count set to 0
 
     protected int currentAmmo; // Current ammo count
 
-    [SerializeField]
     private const int maxAmmo = 5; // Max ammo count
 
     public GameObject Bullet
@@ -44,8 +43,7 @@ public abstract class WeaponBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        currentAmmo = initialAmmo; // Initialize current ammo
-        ammoUIManager.ResetAmmo(); // Initialize UI with full ammo
+        InitializeAmmo();
     }
 
     /// <summary>
@@ -53,6 +51,15 @@ public abstract class WeaponBase : MonoBehaviour
     /// Should account for the fire delay to control shooting frequency.
     /// </summary>
     public abstract void Shoot();
+
+    /// <summary>
+    /// Method to initialize ammo and update the UI.
+    /// </summary>
+    public void InitializeAmmo()
+    {
+        currentAmmo = initialAmmo; // Initialize current ammo
+        ammoUIManager.UpdateAmmoUI(currentAmmo); // Initialize UI with the current ammo count
+    }
 
     /// <summary>
     /// Method to consume ammo and update the UI. Returns true if ammo was successfully used, false if out of ammo.
@@ -78,7 +85,7 @@ public abstract class WeaponBase : MonoBehaviour
     public void ReloadAmmo()
     {
         currentAmmo = Mathf.Clamp(currentAmmo + initialAmmo, 0, maxAmmo);
-        ammoUIManager.ResetAmmo(); // Reset the UI with the new ammo count
+        ammoUIManager.UpdateAmmoUI(currentAmmo); // Update the UI with the new ammo count
     }
 
     /// <summary>
