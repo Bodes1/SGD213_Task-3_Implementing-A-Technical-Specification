@@ -1,83 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    // Making the "move" variable 
-    private Movement movement;
+    private PlayerMovement movement; // Reference to the PlayerMovement component
+    private GroundCheck groundCheck; // Reference to the GroundCheck component
 
-    private float horizontalInput;
+    [SerializeField] private float walkSpeed = 7.5f; // Player walk speed
+    [SerializeField] private float runSpeedMultiplier = 2.5f; // Multiplier for running speed
+    [SerializeField] private float jumpHeight = 16f; // Player jump height
 
-    // Player walk speed and run speed multipler
-    private float walkSpeed = 7.5f;
-    private float runSpeed = 1f;
+    private float currentRunMultiplier = 1f; // Current running speed multiplier
 
-    // Player jump height
-    private float jumpHeight = 16f;
-
-
-    // Can change the size of the box, which is used for detecting the ground
-    [SerializeField]
-    private Vector2 boxSize;
-
-    // Can change the box position
-    [SerializeField]
-    private float castDistance;
-
-    // Can set what layer to detect, which should be set to ground
-    [SerializeField]
-    private LayerMask groundLayer;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        // Getting the "move" component
-        movement = GetComponent<Movement>();
+        movement = GetComponent<PlayerMovement>();
+        groundCheck = GetComponent<GroundCheck>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        // Get input/direction
-        horizontalInput = Input.GetAxis("Horizontal");
-        
-        // Give the 'Movement' script the direction and speed
-        movement.ObjectMovement(horizontalInput, walkSpeed, runSpeed);
+        HandleMovementInput();
+        HandleJumpInput();
+    }
 
-        // If shift is press, itll multiple the player movement, making it sprint
-        if (Input.GetButtonDown("Sprint")) 
+    private void HandleMovementInput()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float effectiveSpeed = walkSpeed * currentRunMultiplier;
+        movement.Move(horizontalInput, effectiveSpeed);
+
+        if (Input.GetButtonDown("Sprint"))
         {
-            runSpeed = 2.5f;
-            Debug.Log("Sprinting");
+            currentRunMultiplier = runSpeedMultiplier;
         }
         else if (Input.GetButtonUp("Sprint"))
         {
-            runSpeed = 1f;
-            Debug.Log("Walking");
-        }
-
-        // If space is pressed and standing on floor, will jump
-        if (Input.GetButtonDown("Jump") && IsGrounded())
-        {
-            movement.ObjectJump(jumpHeight);
+            currentRunMultiplier = 1f;
         }
     }
 
-    private bool IsGrounded()
+    private void HandleJumpInput()
     {
-        if(Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer))
-        {  
-            return true;
-        }
-        else
+        if (Input.GetButtonDown("Jump") && groundCheck.IsGrounded())
         {
-            return false;
+            movement.Jump(jumpHeight);
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(transform.position-transform.up * castDistance, boxSize);
     }
 }
