@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour, IMoveable
 {
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] public float jumpForce = 5f; // Ensure this is accessible
+    private Rigidbody2D rb;
 
     private void Awake()
     {
